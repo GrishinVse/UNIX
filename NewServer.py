@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+         #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import socket
@@ -18,6 +18,8 @@ if not ((0<=port<65536) and isinstance(port, int)):
 
 print("START TIME : " + str(time.ctime()))
 log.write("START TIME : " + str(time.ctime()) + "\n")
+
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 sock.bind(('', int(port)))
 
 while True:
@@ -47,6 +49,9 @@ while True:
             if len(data) == 0:
                 print("Пустое значение!")
                 break
+            if data.lower() == 'sstop':
+                print("Отключение сервера!")
+                exit() 
         except ConnectionResetError as error:
             print(error)
             print("Потеря связи с клиентом")
